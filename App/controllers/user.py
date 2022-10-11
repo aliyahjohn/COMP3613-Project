@@ -31,3 +31,9 @@ def update_user(id, username):
         return db.session.commit()
     return None
     
+def validate_User(username, password):
+    user = User.query.filter_by(username = username).all()
+    for u in user:
+        if u and u.check_password(password):
+            return u
+    return None
