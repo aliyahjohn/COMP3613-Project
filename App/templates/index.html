@@ -1,10 +1,31 @@
 {% extends "layout.html" %}
-{% block title %}Flask MVC App{% endblock %}
-{% block page %}Flask MVC App{% endblock %}
+{% block title %}Student Conduct{% endblock %}
+{% block page %}Student Conduct{% endblock %}
 
 {{ super() }}
 
 {% block content %}
-    <h1>Flask MVC</h1>
-    <p>This is a boileplate flask application which follows the MVC pattern for structuring the project.</p>
+    <h3>Welcome to the Student Conduct Tracker.</h3>
+
+    <body>
+        <div class= "section center-align">
+            <a href="/login" id="button" class="waves-effect waves-light btn-large 
+             white-text #5e35b1 deep-purple darken-1">
+             <b>Log In</b></a>
+        </div>
+        
+        
+        <div class="section center-align">
+            <a href="/signup" id="button" class="center-align waves-effect waves-light btn-large
+             white-text #5e35b1 deep-purple darken-1">
+             <b>Sign Up</b></a>
+        </div>
+
+        <div class= "section center-align">
+            <a href="/conduct" id="button" class="waves-effect waves-light btn-large 
+             white-text black">
+             <b>TEMP (NO LOG IN)</b></a>
+        </div>
+
+    </body>
 {% endblock %}
