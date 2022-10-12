@@ -6,3 +6,7 @@ conduct_views = Blueprint('conduct_views', __name__, template_folder='../templat
 def conduct_page():
     return render_template('conduct.html')
 
+@conduct_views.route('/conduct/add', methods=['GET', 'POST'])
+def conductUpdated():
+    return render_template('conduct.html')
+

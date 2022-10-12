@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+{% block title %}Student Conduct{% endblock %}
+{% block page %}Student Conduct{% endblock %}
+
+{{ super() }}
+
+{% block content %}
+
+    {% for student in students %}
+    <span>
+        <h5> {{student.studentId}} </h5>
+        <h6> {{student.name}} </h6>
+        <!-- <h8> {{student.faculty}} </h8>
+        <h8> {{student.year}} </h8>
+        <h8> {{student.kpoints}} </h8>
+        <h8> {{student.faculty}} </h8> -->
+        <br>
+    </span>
+    {% endfor %}
+</form>
+
+
+
+<form method="POST" action="/conduct/add">
+    <!-- add student: -->
+    <textarea id="name" name="addStudent" class="materialize-textarea" ></textarea>
+    <textarea id="studentId" name="addStudent" class="materialize-textarea" ></textarea>
+    <textarea id="faculty" name="addStudent" class="materialize-textarea" ></textarea>
+    <textarea id="year" name="addStudent" class="materialize-textarea" ></textarea>
+    <textarea id="kpoints" name="addStudent" class="materialize-textarea" ></textarea>
+
+    <button id="addBtn" type="submit" class="waves-effect waves-light btn black">Add Student</button>
+</form>
+{% endblock %}

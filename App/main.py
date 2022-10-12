@@ -152,8 +152,24 @@ def logoutActions():
 
 @app.route('/conduct', methods=['GET']) 
 def conduct():
-   return render_template('conduct.html')
+    students = Student.query.all()
 
+    return render_template('conduct.html', student = 0, students = students)
+
+@app.route('/conduct/add', methods=['GET', 'POST'])
+def addStudent():
+
+    newstudent = Student(name = data['name'] , studentId = data['studentId'], faculty = data['faculty'], year = data['year'], kpoints = data['kpoints'])
+    if newstudent: #already exists
+      db.session.merge(newstudent)
+      db.session.commit()
+    else:
+      db.session.add(newstudent)
+      db.session.commit()
+
+    students = Student.query.all()
+    return render_template('conduct.html', student = 0, students = students)
+    
 
 
 migrate = get_migrate(app)
