@@ -48,7 +48,9 @@ def displayStudentProfile(id):
             downvotes = thisstudent.review.downvotes
 
             #TO DO: calc needed to product karmapoints
-
+            upVScore = upvotes * 2
+            downVScore = downvotes * 2
+            karmapoints = upVscore - downVScore
         totalkP = totalkP + karmapoints
     
     thisstudent.kpoints = totalkP
@@ -77,7 +79,10 @@ def reviewStudent(id):
             downvotes = thisstudent.review.downvotes
 
             #TO DO: calc needed to product karmapoints
-
+            upVScore = upvotes * 2.5
+            downVScore = downvotes * 2.5
+            karmapoints = upVscore - downVScore
+            
         totalkP = totalkP + karmapoints
     
     thisstudent.kpoints = totalkP
