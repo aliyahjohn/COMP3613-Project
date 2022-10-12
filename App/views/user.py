@@ -18,7 +18,7 @@ def get_user_page():
 
 @user_views.route('/api/users')
 def client_app():
-    users = get_all_users_json()
+    users = get_all_users_json() #from controller
     return jsonify(users)
 
 @user_views.route('/static/users')

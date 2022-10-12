@@ -1,4 +1,4 @@
-from App.database import db
+from App.database import db #ensure all pages import correctly
 
 class Review(db.Model):
   __tablename__ = 'Review'
@@ -21,3 +21,4 @@ class Review(db.Model):
 
 
     
+#json methods

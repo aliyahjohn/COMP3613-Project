@@ -28,3 +28,4 @@ class Student(db.Model):
       'reviews':self.Review.toDict()
     }
 
+#json methods

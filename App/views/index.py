@@ -6,8 +6,5 @@ index_views = Blueprint('index_views', __name__, template_folder='../templates')
 def index_page():
     return render_template('index.html')
 
-@index_views.route('/login')
-def login_page():
-    return render_template('login.html')
 
 

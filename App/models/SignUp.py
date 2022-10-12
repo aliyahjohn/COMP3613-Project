@@ -8,5 +8,4 @@ class SignUp(FlaskForm):
     password = PasswordField('New Password', validators=[InputRequired(), EqualTo('confirm', message='Passwords must match')])
     confirm  = PasswordField('Repeat Password')
     submit = SubmitField('Sign Up', render_kw={'class': 'btn waves-effect waves-light white-text'})
-
-    
+ ##FILE NOT USED BECAUSE FORM NOT USED. DATABASE TABLE IS SET UP IN models/user.py

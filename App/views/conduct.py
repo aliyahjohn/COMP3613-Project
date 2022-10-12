@@ -1,19 +1,26 @@
 from flask import Blueprint, redirect, render_template, request, send_from_directory
+from App.database import db
+
+from App.controllers import (
+    get_all_students,
+    get_all_students_json,
+    search_all_students,
+    get_all_reviews_json,
+    search_all_reviews
+)
 
 conduct_views = Blueprint('conduct_views', __name__, template_folder='../templates')
 
 @conduct_views.route('/conduct', methods=['GET'])
 def conduct_page():
-    students = Student.query.all()
-    return render_template('conduct.html')
-
-
-#RETURN RENDER TEMPLATE STATEMENTS OF NO USE BECAUSE NO UI, INSTEAD INFO WILL BE PRINTED TO CONSOLE
-#/POSTMAN RETURN? NOT SURE HOW TO TEST ROUTES VIA POSTMAN - RESEARCH 
+    students = get_all_students_json() #from conduct controller
+    return jsonify(students)
 
 
 @conduct_views.route('/conduct/add', methods=['GET', 'POST'])
 def addStudent():
+  #receive from json request instead of from form data because backend only
+  data = request.get_json() 
     newstudent = Student(name = data['name'] , studentId = data['studentId'], faculty = data['faculty'], year = data['year'], kpoints = data['kpoints'])
     if newstudent: #if already exists
       db.session.merge(newstudent)
@@ -22,42 +29,31 @@ def addStudent():
       db.session.add(newstudent)
       db.session.commit()
 
-    students = Student.query.all()
-    # return render_template('conduct.html', student = 0, students = students)
+    return jsonify(students)
     
 
 
 @conduct_views.route('/conduct/search', methods=['GET'])
 def searchStudents():
-    data = request.form 
-    student = Student.query.filter_by(studentId=data['studentId']).first()
-#return student 
+    data = request.get_json() 
+    student = search_all_students(data['id'])
+    if student:
+      return jsonify(student)
+    return 'No student found by that ID'
 
 
 
 @conduct_views.route('/conduct/<studentId>', methods=['GET'])
 def displayStudentProfile(id):
-    student = Student.query.filter_by(studentId = id).first()
-#return student profile 
-#list of reviews are part of student profile: can upvote or downvote each review
-#update karma points
-    reviews = Review.query.all(studentId = id).first()
-    for review in reviews:
-        if student.reviews:
-            upvotes = thisstudent.review.upvotes
-            downvotes = thisstudent.review.downvotes
-
-            #TO DO: calc needed to product karmapoints
-            upVScore = upvotes * 2
-            downVScore = downvotes * 2
-            karmapoints = upVscore - downVScore
-        totalkP = totalkP + karmapoints
-    
-    thisstudent.kpoints = totalkP
-    db.session.commit()
+  ##view student profile with all reviews
+    thisstudent = search_all_students(studentId)
+    student = search_all_students(data['id'])
+    if student:
+      return jsonify(student)
+    return 'No student found by that ID'
 
 
-
+#ADD REVIEW FOR STUDENT
 @conduct_views.route('/conduct/review/<studentId>', methods=['GET', 'POST'])
 def reviewStudent(id):
   data = request.form
@@ -72,6 +68,7 @@ def reviewStudent(id):
       db.session.add(review)
       db.session.commit()
        
+       #CALC OF KARMA POINTS SHOULD BE A FUNCTION WITHIN ONE OF THE MODEL FILES
     #update karma points
     for review in reviews:
         if student.reviews:
@@ -87,28 +84,34 @@ def reviewStudent(id):
     
     thisstudent.kpoints = totalkP
     db.session.commit()
-    
+  
+#ADD UPVOTE FOR A REVIEW
+#ADD DOWNVOTE FOR A REVIEW
 
 
 #DELETE REVIEW
 @conduct_views.route('/conduct/<reviewId>/<studentId>', methods=['DELETE'])
 def deleteReview(revieId, studentId):
-  student = Student.query.filter_by(studentId = studentId).first()
-  review = Review.query.filter_by(reviewId = student.reviews.reviewId).first()
+  student = search_all_students(studentId)
+  review = search_all_reviews(studentId) 
   
   if review:
     db.session.delete(review)
     db.session.commit()
+    return 'Review Deleted'
+  return 'No review found by that ID'
+
 
 
 
 #DELETE STUDENT
 @conduct_views.route('/conduct/delete/<studentId>', methods=['DELETE'])
 def deleteStudent(id):
-  student = Student.query.filter_by(studentId = studentId).first()
+  student = search_all_students(studentId)
   
-  if review:
+  if student:
     db.session.delete(student)
     db.session.commit()
-
+    return 'Student Deleted'
+  return 'No student found by that ID'
 
