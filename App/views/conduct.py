@@ -9,13 +9,13 @@ def conduct_page():
 
 
 #RETURN RENDER TEMPLATE STATEMENTS OF NO USE BECAUSE NO UI, INSTEAD INFO WILL BE PRINTED TO CONSOLE
-#/POSTMAN RETURN
+#/POSTMAN RETURN? NOT SURE HOW TO TEST ROUTES VIA POSTMAN - RESEARCH 
+
 
 @conduct_views.route('/conduct/add', methods=['GET', 'POST'])
 def addStudent():
-
     newstudent = Student(name = data['name'] , studentId = data['studentId'], faculty = data['faculty'], year = data['year'], kpoints = data['kpoints'])
-    if newstudent: #already exists
+    if newstudent: #if already exists
       db.session.merge(newstudent)
       db.session.commit()
     else:
@@ -27,12 +27,13 @@ def addStudent():
     
 
 
-
 @conduct_views.route('/conduct/search', methods=['GET'])
 def searchStudents():
     data = request.form 
     student = Student.query.filter_by(studentId=data['studentId']).first()
 #return student 
+
+
 
 @conduct_views.route('/conduct/<studentId>', methods=['GET'])
 def displayStudentProfile(id):
@@ -46,7 +47,7 @@ def displayStudentProfile(id):
             upvotes = thisstudent.review.upvotes
             downvotes = thisstudent.review.downvotes
 
-            #calc
+            #TO DO: calc needed to product karmapoints
 
         totalkP = totalkP + karmapoints
     
@@ -75,13 +76,14 @@ def reviewStudent(id):
             upvotes = thisstudent.review.upvotes
             downvotes = thisstudent.review.downvotes
 
-            #calc
+            #TO DO: calc needed to product karmapoints
 
         totalkP = totalkP + karmapoints
     
     thisstudent.kpoints = totalkP
     db.session.commit()
     
+
 
 #DELETE REVIEW
 @conduct_views.route('/conduct/<reviewId>/<studentId>', methods=['DELETE'])
@@ -92,6 +94,7 @@ def deleteReview(revieId, studentId):
   if review:
     db.session.delete(review)
     db.session.commit()
+
 
 
 #DELETE STUDENT
