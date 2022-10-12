@@ -147,29 +147,8 @@ def signUpAction():
 def logoutActions():
     logout_user()
     flash('Logged Out')
-    return redirect(url_for('index'))
+    return redirect(url_for('index')) 
 
-
-@app.route('/conduct', methods=['GET']) 
-def conduct():
-    students = Student.query.all()
-
-    return render_template('conduct.html', student = 0, students = students)
-
-@app.route('/conduct/add', methods=['GET', 'POST'])
-def addStudent():
-
-    newstudent = Student(name = data['name'] , studentId = data['studentId'], faculty = data['faculty'], year = data['year'], kpoints = data['kpoints'])
-    if newstudent: #already exists
-      db.session.merge(newstudent)
-      db.session.commit()
-    else:
-      db.session.add(newstudent)
-      db.session.commit()
-
-    students = Student.query.all()
-    return render_template('conduct.html', student = 0, students = students)
-    
 
 
 migrate = get_migrate(app)

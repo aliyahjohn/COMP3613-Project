@@ -27,3 +27,4 @@ class Student(db.Model):
       'kpoints':self.kpoints,
       'reviews':self.Review.toDict()
     }
+
