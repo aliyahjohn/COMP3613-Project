@@ -54,7 +54,7 @@ def searchStudents():
 
 
 
-#DELETE STUDENT
+#DELETE STUDENT: BUGGED
 @conduct_views.route('/conduct/delete', methods=['DELETE'])
 def deleteStudent():
     data = request.get_json() 
@@ -67,56 +67,57 @@ def deleteStudent():
       
 
 
-###########
+#VOTE ON REVIEW: NOT TESTED
+@conduct_views.route('/conduct/review/vote', methods =['POST'])
+def voteReview():
+  data = request.get_json() 
+  vote = data['vote']
+  review = search_all_reviews(data['reviewId'])
+
+  if review == None:
+    return 'Incorrect Review ID.'
+
+  student = search_all_students(data['studentId'])
+  if student == None:
+    return 'Incorrect Student ID.'
+
+  if (vote == "downvote") OR (vote == "upvote"):
+    Review.updateVotes(vote, review)
+    Student.updateKPoints(student)
+    return 'Vote Added'
+  return 'Error: Vote must be upvote or downvote'
 
 
-#ADD REVIEW FOR STUDENT
-@conduct_views.route('/conduct/review/<studentId>', methods=['GET', 'POST'])
-def reviewStudent(studentId):
+
+#ADD REVIEW FOR STUDENT: NOT TESTED
+@conduct_views.route('/conduct/reviewStudent', methods=['GET', 'POST'])
+def reviewStudent():
   data = request.get_json()
-  thisstudent = search_all_students(id)
       
   if thisstudent:
-    review = Review(text = data['rtext'] , studentId = Student(studentId = thisstudent.studentId), upvotes = 0, downvotes = 0)
-    if review:
+    review = Review(text = data['rtext'] , studentId = data['studentId'], upvotes = 0, downvotes = 0, userid = data['id'])
+    if review: #already exists
       db.session.merge(review)
       db.session.commit()
     else:
       db.session.add(review)
       db.session.commit()
-       
-       #CALC OF KARMA POINTS SHOULD BE A FUNCTION WITHIN ONE OF THE MODEL FILES
-    #update karma points
-    for review in reviews:
-        if student.reviews:
-            upvotes = thisstudent.review.upvotes
-            downvotes = thisstudent.review.downvotes
-
-            #calc needed to product karmapoints - possible for loop 
-            upVScore = upvotes * 2.5
-            downVScore = downvotes * 2.5
-            karmapoints = upVscore - downVScore
-            
-        totalkP = totalkP + karmapoints
-    
-    thisstudent.kpoints = totalkP
-    db.session.commit()
-  
-#ADD UPVOTE FOR A REVIEW
-#ADD DOWNVOTE FOR A REVIEW
+    return 'Review Added'
+  return 'Error: Student not found'
 
 
-#DELETE REVIEW
-@conduct_views.route('/conduct/<reviewId>/<studentId>', methods=['DELETE'])
-def deleteReview(reviewId, studentId):
-  student = search_all_students(studentId)
-  review = search_all_reviews(studentId) 
+
+#DELETE REVIEW: NOT TESTED
+@conduct_views.route('/conduct/deleteReview', methods=['DELETE'])
+def deleteReview():
+  data = request.get_json()
+  review = search_all_reviews(data['reviewId']) 
   
   if review:
     db.session.delete(review)
     db.session.commit()
     return 'Review Deleted'
-  return 'No review found by that ID'
+  return 'Incorrect Review Id'
 
 
 

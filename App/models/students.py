@@ -37,5 +37,12 @@ class Student(db.Model):
       'kpoints':self.kpoints
     }
 
+  def updateKPoints(student):
+    if student.reviews:
+      while i < len(student.reviews):
+        karma = (student.reviews[i].upvotes * 2.5) - (student.reviews[i].downvotes * 2.5)
+        student.kpoints = student.kpoints + karma
+
+    return 0
 
 #json methods

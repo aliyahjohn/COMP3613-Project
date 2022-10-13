@@ -19,6 +19,10 @@ class Review(db.Model):
     self.userid = userid
     self.user = user
 
-
+  def updateVotes(vote, review):
+    if vote == "upvote":
+      review.upvotes = review.upvotes + 1
+    else if vote == "downvote":
+      review.downvotes = review.downvotes + 1
     
 #json methods
