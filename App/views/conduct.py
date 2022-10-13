@@ -13,12 +13,17 @@ from App.models import Student
 
 conduct_views = Blueprint('conduct_views', __name__, template_folder='../templates')
 
+
+#VIEW ALL STUDENTS
 @conduct_views.route('/conduct', methods=['GET'])
 def conduct_page():
     students = get_all_students_json() #from conduct controller
     return jsonify(students)
 
 
+
+
+#ADD STUDENT
 @conduct_views.route('/conduct/add', methods=['POST'])
 def addStudent():
   #receive from json request instead of from form data, backend only
@@ -36,25 +41,33 @@ def addStudent():
   return 'Student List Updated'
     
 
-
+#SEARCH STUDENT
 @conduct_views.route('/conduct/search', methods=['GET'])
 def searchStudents():
     data = request.get_json() 
     student = search_all_students(data['id'])
     if student:
       return jsonify(student)
-    return 'No student found by that ID'
+    else:
+      return 'No student found by that ID'
 
 
 
-@conduct_views.route('/conduct/<studentId>', methods=['GET'])
-def displayStudentProfile(studentId):
-  ##view student profile with all reviews
-    thisstudent = search_all_students(studentId)
-    student = search_all_students(studentId)
+
+#DELETE STUDENT
+@conduct_views.route('/conduct/delete', methods=['DELETE'])
+def deleteStudent():
+    data = request.get_json() 
+    student = search_all_students(data['id'])
     if student:
-      return jsonify(student)
-    return 'No student found by that ID'
+      db.session.delete(student)
+      db.session.commit()
+    else:
+      return 'No student found by that ID'
+      
+
+
+###########
 
 
 #ADD REVIEW FOR STUDENT
@@ -108,14 +121,4 @@ def deleteReview(reviewId, studentId):
 
 
 
-#DELETE STUDENT
-@conduct_views.route('/conduct/delete/<studentId>', methods=['DELETE'])
-def deleteStudent(id):
-  student = search_all_students(studentId)
-  
-  if student:
-    db.session.delete(student)
-    db.session.commit()
-    return 'Student Deleted'
-  return 'No student found by that ID'
 

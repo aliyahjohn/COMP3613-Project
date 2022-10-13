@@ -14,5 +14,6 @@ def get_all_students_json():
 def search_all_students(id):
     student = Student.query.filter_by(studentId=id).first()
     if student: 
+        student = student.toJSON()
         return student
     return None

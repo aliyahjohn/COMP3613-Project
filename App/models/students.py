@@ -34,7 +34,7 @@ class Student(db.Model):
       'name':self.name,
       'faculty':self.faculty,
       'year':self.year,
-      'kpoints':self.kpoints,
+      'kpoints':self.kpoints
     }
 
 
