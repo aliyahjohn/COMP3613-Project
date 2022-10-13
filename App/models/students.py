@@ -44,5 +44,3 @@ class Student(db.Model):
         student.kpoints = student.kpoints + karma
 
     return 0
-
-#json methods
