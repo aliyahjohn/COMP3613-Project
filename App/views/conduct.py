@@ -67,6 +67,23 @@ def deleteStudent():
       
 
 
+#ADD REVIEW FOR STUDENT: NOT TESTED
+@conduct_views.route('/conduct/reviewStudent', methods=['POST'])
+def reviewStudent():
+  data = request.get_json()
+      
+  if thisstudent:
+    review = Review(text = data['rtext'] , studentId = data['studentId'], upvotes = 0, downvotes = 0, userid = data['id'])
+    if review: #already exists
+      db.session.merge(review)
+      db.session.commit()
+    else:
+      db.session.add(review)
+      db.session.commit()
+    return 'Review Added'
+  return 'Error: Student not found'
+
+
 #VOTE ON REVIEW: NOT TESTED
 @conduct_views.route('/conduct/review/vote', methods =['POST'])
 def voteReview():
@@ -86,25 +103,6 @@ def voteReview():
     Student.updateKPoints(student)
     return 'Vote Added'
   return 'Error: Vote must be upvote or downvote'
-
-
-
-#ADD REVIEW FOR STUDENT: NOT TESTED
-@conduct_views.route('/conduct/reviewStudent', methods=['GET', 'POST'])
-def reviewStudent():
-  data = request.get_json()
-      
-  if thisstudent:
-    review = Review(text = data['rtext'] , studentId = data['studentId'], upvotes = 0, downvotes = 0, userid = data['id'])
-    if review: #already exists
-      db.session.merge(review)
-      db.session.commit()
-    else:
-      db.session.add(review)
-      db.session.commit()
-    return 'Review Added'
-  return 'Error: Student not found'
-
 
 
 #DELETE REVIEW: NOT TESTED
