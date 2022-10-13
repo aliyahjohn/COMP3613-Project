@@ -12,7 +12,7 @@ def get_all_students_json():
     return students #return always
 
 def search_all_students(id):
-    student = Student.query.filter_by(studentid=id).first()
+    student = Student.query.filter_by(studentId=id).first()
     if student: 
         return student
     return None

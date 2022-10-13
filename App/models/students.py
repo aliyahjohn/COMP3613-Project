@@ -10,7 +10,7 @@ class Student(db.Model):
   kpoints = db.Column(db.Integer)
   reviews = db.relationship('Review', backref='Student')
 
-  def _init_(self, studentId, fName, lName):
+  def _init_(self, studentId, name, faculty, year, kpoints):
     self.studentId = studentId
     self.name = name
     self.faculty = faculty
@@ -21,12 +21,21 @@ class Student(db.Model):
   def toDict(self):
     return {
       'studentId':self.studentId,
-      'fName':self.fName,
-      'lName':self.lName, 
+      'name':self.name,
       'faculty':self.faculty,
       'year':self.year,
       'kpoints':self.kpoints,
       'reviews':self.Review.toDict()
     }
+
+  def toJSON(self):
+    return{
+      'studentId':self.studentId,
+      'name':self.name,
+      'faculty':self.faculty,
+      'year':self.year,
+      'kpoints':self.kpoints,
+    }
+
 
 #json methods

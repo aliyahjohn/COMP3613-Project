@@ -48,10 +48,10 @@ def searchStudents():
 
 
 @conduct_views.route('/conduct/<studentId>', methods=['GET'])
-def displayStudentProfile(id):
+def displayStudentProfile(studentId):
   ##view student profile with all reviews
     thisstudent = search_all_students(studentId)
-    student = search_all_students(data['id'])
+    student = search_all_students(studentId)
     if student:
       return jsonify(student)
     return 'No student found by that ID'
@@ -59,8 +59,8 @@ def displayStudentProfile(id):
 
 #ADD REVIEW FOR STUDENT
 @conduct_views.route('/conduct/review/<studentId>', methods=['GET', 'POST'])
-def reviewStudent(id):
-  # data = request.form
+def reviewStudent(studentId):
+  data = request.get_json()
   thisstudent = search_all_students(id)
       
   if thisstudent:
