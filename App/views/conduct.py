@@ -21,15 +21,15 @@ def conduct_page():
 def addStudent():
   #receive from json request instead of from form data because backend only
   data = request.get_json() 
-    newstudent = Student(name = data['name'] , studentId = data['studentId'], faculty = data['faculty'], year = data['year'], kpoints = data['kpoints'])
-    if newstudent: #if already exists
-      db.session.merge(newstudent)
-      db.session.commit()
-    else:
-      db.session.add(newstudent)
-      db.session.commit()
+  newstudent = Student(name = data['name'] , studentId = data['studentId'], faculty = data['faculty'], year = data['year'], kpoints = data['kpoints'])
+  if newstudent: #if already exists
+    db.session.merge(newstudent)
+    db.session.commit()
+  else:
+    db.session.add(newstudent)
+    db.session.commit()
 
-    return jsonify(students)
+  return jsonify(students)
     
 
 
