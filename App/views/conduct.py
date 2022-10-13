@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, render_template, request, send_from_directory
+from flask import Blueprint, redirect, render_template, request, send_from_directory, jsonify
 from App.database import db
 
 from App.controllers import (
@@ -17,11 +17,11 @@ def conduct_page():
     return jsonify(students)
 
 
-@conduct_views.route('/conduct/add', methods=['GET', 'POST'])
+@conduct_views.route('/conduct/add', methods=['POST'])
 def addStudent():
   #receive from json request instead of from form data because backend only
   data = request.get_json() 
-  newstudent = Student(name = data['name'] , studentId = data['studentId'], faculty = data['faculty'], year = data['year'], kpoints = data['kpoints'])
+  newstudent = Student(name = data['name'] , studentId = data['studentId'], faculty = data['faculty'], year = data['year'])
   if newstudent: #if already exists
     db.session.merge(newstudent)
     db.session.commit()
@@ -29,7 +29,7 @@ def addStudent():
     db.session.add(newstudent)
     db.session.commit()
 
-  return jsonify(students)
+  return 'Student List Updated'
     
 
 
@@ -56,8 +56,8 @@ def displayStudentProfile(id):
 #ADD REVIEW FOR STUDENT
 @conduct_views.route('/conduct/review/<studentId>', methods=['GET', 'POST'])
 def reviewStudent(id):
-  data = request.form
-  thisstudent = Student.query.filter_by(isbn = data['id']).first()
+  # data = request.form
+  thisstudent = search_all_students(id)
       
   if thisstudent:
     review = Review(text = data['rtext'] , studentId = Student(studentId = thisstudent.studentId), upvotes = 0, downvotes = 0)
@@ -75,7 +75,7 @@ def reviewStudent(id):
             upvotes = thisstudent.review.upvotes
             downvotes = thisstudent.review.downvotes
 
-            #TO DO: calc needed to product karmapoints
+            #calc needed to product karmapoints - possible for loop 
             upVScore = upvotes * 2.5
             downVScore = downvotes * 2.5
             karmapoints = upVscore - downVScore
@@ -91,7 +91,7 @@ def reviewStudent(id):
 
 #DELETE REVIEW
 @conduct_views.route('/conduct/<reviewId>/<studentId>', methods=['DELETE'])
-def deleteReview(revieId, studentId):
+def deleteReview(reviewId, studentId):
   student = search_all_students(studentId)
   review = search_all_reviews(studentId) 
   
