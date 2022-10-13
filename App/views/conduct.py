@@ -98,7 +98,7 @@ def voteReview():
   if student == None:
     return 'Incorrect Student ID.'
 
-  if (vote == "downvote") OR (vote == "upvote"):
+  if (vote == "downvote") or (vote == "upvote"):
     Review.updateVotes(vote, review)
     Student.updateKPoints(student)
     return 'Vote Added'

@@ -22,7 +22,7 @@ class Review(db.Model):
   def updateVotes(vote, review):
     if vote == "upvote":
       review.upvotes = review.upvotes + 1
-    else if vote == "downvote":
+    else:
       review.downvotes = review.downvotes + 1
     
 #json methods
