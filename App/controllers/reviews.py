@@ -1,5 +1,6 @@
 from App.models import Review
 from App.database import db
+from json import *
 
 
 def get_all_reviews_json():

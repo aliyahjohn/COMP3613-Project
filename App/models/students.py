@@ -1,12 +1,13 @@
 from App.database import db
 
+
 class Student(db.Model):
   __tablename__ = 'Student'
   studentId = db.Column(db.String, primary_key=True)
   name = db.Column(db.String, nullable=False)
   faculty = db.Column(db.String, nullable=False)
   year = db.Column(db.Integer, nullable=False)
-  kpoints = db.Column(db.Integer, nullable=False)
+  kpoints = db.Column(db.Integer)
   reviews = db.relationship('Review', backref='Student')
 
   def _init_(self, studentId, fName, lName):

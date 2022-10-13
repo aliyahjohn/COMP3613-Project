@@ -9,6 +9,8 @@ from App.controllers import (
     search_all_reviews
 )
 
+from App.models import Student
+
 conduct_views = Blueprint('conduct_views', __name__, template_folder='../templates')
 
 @conduct_views.route('/conduct', methods=['GET'])
@@ -19,9 +21,11 @@ def conduct_page():
 
 @conduct_views.route('/conduct/add', methods=['POST'])
 def addStudent():
-  #receive from json request instead of from form data because backend only
+  #receive from json request instead of from form data, backend only
   data = request.get_json() 
-  newstudent = Student(name = data['name'] , studentId = data['studentId'], faculty = data['faculty'], year = data['year'])
+  
+  newstudent = Student(name = data['name'] , studentId = data['studentId'], faculty = data['faculty'], year = data['year'], kpoints = 0)
+  
   if newstudent: #if already exists
     db.session.merge(newstudent)
     db.session.commit()

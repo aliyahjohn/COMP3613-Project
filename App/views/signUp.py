@@ -17,8 +17,10 @@ signup_views = Blueprint('signup_views', __name__, template_folder='../templates
 @signup_views.route('/signUp', methods = ['POST'])
 def signUp():
   userdata = request.get_json() 
+
   newuser = User(username = userdata['username'], email = userdata['email'], password = userdata['password'])
   newuser.set_password(userdata['password'])
+  
   # try:
   db.session.add(newuser)
   db.session.commit() # save user
