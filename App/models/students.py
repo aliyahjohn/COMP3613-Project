@@ -39,8 +39,11 @@ class Student(db.Model):
 
   def updateKPoints(student):
     if student.reviews:
+      i = 0
       while i < len(student.reviews):
-        karma = (student.reviews[i].upvotes * 2.5) - (student.reviews[i].downvotes * 2.5)
+        upvotes = student.reviews[i].upvotes * 2.5
+        downvotes = student.reviews[i].downvotes * 2.5
+        karma = upvotes - downvotes
         student.kpoints = student.kpoints + karma
 
     return 0

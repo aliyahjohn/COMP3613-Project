@@ -17,7 +17,16 @@ class Review(db.Model):
     self.upvotes = upvotes
     self.downvotes = downvotes
     self.userid = userid
-    self.user = user
+
+  def toJSON(self):
+    return{
+      'reviewId':self.reviewId,
+      'text':self.text,
+      'studentId':self.studentId,
+      'upvotes':self.upvotes,
+      'downvotes':self.downvotes,
+      'userid':self.userid,
+    }
 
   def updateVotes(vote, review):
     if vote == "upvote":
@@ -25,4 +34,3 @@ class Review(db.Model):
     else:
       review.downvotes = review.downvotes + 1
     
-#json methods

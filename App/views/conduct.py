@@ -6,10 +6,12 @@ from App.controllers import (
     get_all_students_json,
     search_all_students,
     get_all_reviews_json,
-    search_all_reviews
+    search_all_reviews,
+    search_all_students_,
+    search_all_reviews_byid
 )
 
-from App.models import Student
+from App.models import Student, Review
 
 conduct_views = Blueprint('conduct_views', __name__, template_folder='../templates')
 
@@ -54,24 +56,27 @@ def searchStudents():
 
 
 
-#DELETE STUDENT: BUGGED
+#DELETE STUDENT
 @conduct_views.route('/conduct/delete', methods=['DELETE'])
 def deleteStudent():
     data = request.get_json() 
-    student = search_all_students(data['id'])
+    student = search_all_students_(data['id'])
+
     if student:
       db.session.delete(student)
       db.session.commit()
+      return 'Student Deleted'
     else:
       return 'No student found by that ID'
-      
 
 
-#ADD REVIEW FOR STUDENT: NOT TESTED
+#ADD REVIEW FOR STUDENT
 @conduct_views.route('/conduct/reviewStudent', methods=['POST'])
 def reviewStudent():
   data = request.get_json()
       
+  thisstudent = search_all_students_(data['studentId'])
+
   if thisstudent:
     review = Review(text = data['rtext'] , studentId = data['studentId'], upvotes = 0, downvotes = 0, userid = data['id'])
     if review: #already exists
@@ -89,43 +94,43 @@ def reviewStudent():
 @conduct_views.route('/conduct/studentReviews', methods=['GET'])
 def allReviews():
     data = request.get_json()
-    student = search_all_students(data['studentId'])
-    reviews = get_all_reviews_json()
+    student = search_all_students_(data['studentId'])
   
     if student:
-      return jsonify(student.reviews)
+      studentReviews = get_all_reviews_json(student)
+      return jsonify(studentReviews)
     else:
       return 'No student found by that ID'
 
 
 
 
-#VOTE ON REVIEW: NOT TESTED
+#VOTE ON REVIEW:  bugged
 @conduct_views.route('/conduct/review/vote', methods =['POST'])
 def voteReview():
   data = request.get_json() 
   vote = data['vote']
-  review = search_all_reviews(data['reviewId'])
-
-  if review == None:
-    return 'Incorrect Review ID.'
-
-  student = search_all_students(data['studentId'])
-  if student == None:
-    return 'Incorrect Student ID.'
-
+  
   if (vote == "downvote") or (vote == "upvote"):
-    Review.updateVotes(vote, review)
-    Student.updateKPoints(student)
+    review = search_all_reviews_byid(data['reviewId'])
+    if review == None:
+      return 'Error: Review not found.'
+    else:
+      Review.updateVotes(vote, review)
+
+    studentOBJ = search_all_students_(review.studentId)
+    Student.updateKPoints(studentOBJ)
     return 'Vote Added'
+
   return 'Error: Vote must be upvote or downvote'
 
 
-#DELETE REVIEW: NOT TESTED
+
+#DELETE REVIEW
 @conduct_views.route('/conduct/deleteReview', methods=['DELETE'])
 def deleteReview():
   data = request.get_json()
-  student = search_all_students(data['studentId'])
+  student = search_all_students_(data['studentId'])
   review = search_all_reviews(student.studentId) 
   
   if review:
