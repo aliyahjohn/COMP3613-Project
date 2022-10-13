@@ -84,6 +84,22 @@ def reviewStudent():
   return 'Error: Student not found'
 
 
+
+#VIEW STUDENT REVIEWS
+@conduct_views.route('/conduct/studentReviews', methods=['GET'])
+def allReviews():
+    data = request.get_json()
+    student = search_all_students(data['studentId'])
+    reviews = get_all_reviews_json()
+  
+    if student:
+      return jsonify(student.reviews)
+    else:
+      return 'No student found by that ID'
+
+
+
+
 #VOTE ON REVIEW: NOT TESTED
 @conduct_views.route('/conduct/review/vote', methods =['POST'])
 def voteReview():
@@ -109,7 +125,8 @@ def voteReview():
 @conduct_views.route('/conduct/deleteReview', methods=['DELETE'])
 def deleteReview():
   data = request.get_json()
-  review = search_all_reviews(data['reviewId']) 
+  student = search_all_students(data['studentId'])
+  review = search_all_reviews(student.studentId) 
   
   if review:
     db.session.delete(review)
