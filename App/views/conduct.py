@@ -111,7 +111,7 @@ def voteReview():
   data = request.get_json() 
   vote = data['vote']
   
-  if (vote == "downvote") or (vote == "upvote"):
+  if (vote == 'downvote') or (vote == 'upvote'):
     review = search_all_reviews_byid(data['reviewId'])
     if review == None:
       return 'Error: Review not found.'
@@ -120,7 +120,8 @@ def voteReview():
 
     studentOBJ = search_all_students_(review.studentId)
     Student.updateKPoints(studentOBJ, vote)
-
+    return 'Vote Added'
+    
   return 'Error: Vote must be upvote or downvote'
 
 
