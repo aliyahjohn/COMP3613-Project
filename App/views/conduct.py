@@ -119,7 +119,7 @@ def voteReview():
       Review.updateVotes(vote, review)
 
     studentOBJ = search_all_students_(review.studentId)
-    test = Student.updateKPoints(studentOBJ, vote)
+    Student.updateKPoints(studentOBJ, vote)
 
   return 'Error: Vote must be upvote or downvote'
 
