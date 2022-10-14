@@ -11,7 +11,7 @@ from App.controllers import (
     get_user,
     get_user_by_username,
     update_user,
-        get_all_students,
+    get_all_students,
     get_all_students_json,
     search_all_students,
     get_all_reviews_json,
