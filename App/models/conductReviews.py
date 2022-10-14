@@ -4,7 +4,7 @@ class Review(db.Model):
   __tablename__ = 'Review'
   reviewId = db.Column(db.Integer, primary_key=True)
   text = db.Column(db.String, nullable=False)
-  studentId = db.Column(db.Integer, db.ForeignKey('Student.studentId'), nullable=False)  
+  studentId = db.Column(db.String, db.ForeignKey('Student.studentId'), nullable=False)  
   upvotes = db.Column(db.Integer, nullable=True)  
   downvotes = db.Column(db.Integer, nullable=True)  
   userid = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False) 
