@@ -31,6 +31,7 @@ class Review(db.Model):
   def updateVotes(vote, review):
     if vote == "upvote":
       review.upvotes = review.upvotes + 1
-    else:
+    
+    if vote == "downvote":
       review.downvotes = review.downvotes + 1
     

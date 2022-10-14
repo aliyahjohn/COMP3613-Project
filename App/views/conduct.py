@@ -31,7 +31,7 @@ def addStudent():
   #receive from json request instead of from form data, backend only
   data = request.get_json() 
   
-  newstudent = Student(name = data['name'] , studentId = data['studentId'], faculty = data['faculty'], year = data['year'], kpoints = 0)
+  newstudent = Student(name = data['name'] , studentId = data['studentId'], faculty = data['faculty'], year = data['year'], kpoints = 10)
   
   if newstudent: #if already exists
     db.session.merge(newstudent)
@@ -105,7 +105,7 @@ def allReviews():
 
 
 
-#VOTE ON REVIEW:  bugged
+#VOTE ON REVIEW
 @conduct_views.route('/conduct/review/vote', methods =['POST'])
 def voteReview():
   data = request.get_json() 
@@ -119,8 +119,7 @@ def voteReview():
       Review.updateVotes(vote, review)
 
     studentOBJ = search_all_students_(review.studentId)
-    Student.updateKPoints(studentOBJ)
-    return 'Vote Added'
+    test = Student.updateKPoints(studentOBJ, vote)
 
   return 'Error: Vote must be upvote or downvote'
 
@@ -134,9 +133,13 @@ def deleteReview():
   review = search_all_reviews(student.studentId) 
   
   if review:
+    # if (data['currentuser'] != review.userid):
+    #   return 'You do not have authorization to delete this review.'
+    # else:
     db.session.delete(review)
     db.session.commit()
     return 'Review Deleted'
+
   return 'Incorrect Review Id'
 
 

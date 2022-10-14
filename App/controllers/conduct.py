@@ -7,7 +7,7 @@ def get_all_students():
 def get_all_students_json():
     students = Student.query.all()
     if not students:
-        return []
+        return 'No Students.'
     students = [student.toJSON() for student in students]
     return students #return always
 
