@@ -18,7 +18,7 @@ signup_views = Blueprint('signup_views', __name__, template_folder='../templates
 def signUp():
   userdata = request.get_json() 
 
-  newuser = User(username = userdata['username'], email = userdata['email'], password = userdata['password'])
+  newuser = User(username = userdata['username'], password = userdata['password'])
   newuser.set_password(userdata['password'])
   
   # try:
