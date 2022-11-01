@@ -1,6 +1,12 @@
 from App.models import Student
 from App.database import db
 
+def create_student():
+    newstudent = Student(name = data['name'] , studentId = data['studentId'], faculty = data['faculty'], year = data['year'], kpoints = 10)
+    db.session.add(newstudent)
+    db.session.commit()
+    return newstudent
+
 def get_all_students():
     return Student.query.all()
 
