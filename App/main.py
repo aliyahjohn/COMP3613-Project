@@ -9,6 +9,7 @@ from datetime import timedelta
 from App.controllers.auth import login_user, logout_user
 from App.controllers.user import validate_User
 
+
 login_manager = LoginManager()
 
 login_manager = LoginManager()
@@ -88,6 +89,8 @@ def create_app(config={}):
 
 app = Flask(__name__)
 
+migrate = get_migrate(app)
+
 @app.route('/')
 def index():
    return render_template('index.html')
@@ -151,5 +154,4 @@ def logoutActions():
 
 
 
-migrate = get_migrate(app)
 
