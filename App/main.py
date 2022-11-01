@@ -8,7 +8,7 @@ from werkzeug.datastructures import  FileStorage
 from datetime import timedelta
 from App.controllers.auth import login_user, logout_user
 from App.controllers.user import validate_User
-from App import database
+
 
 login_manager = LoginManager()
 
@@ -154,7 +154,4 @@ def logoutActions():
 
 
 
-
-init = database.init_db(app)
-create = database.create_db(app)
 
