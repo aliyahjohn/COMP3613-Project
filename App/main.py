@@ -89,6 +89,8 @@ def create_app(config={}):
 
 app = Flask(__name__)
 
+migrate = get_migrate(app)
+
 @app.route('/')
 def index():
    return render_template('index.html')
@@ -152,7 +154,7 @@ def logoutActions():
 
 
 
-migrate = get_migrate(app)
+
 init = database.init_db(app)
 create = database.create_db(app)
 
