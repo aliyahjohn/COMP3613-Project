@@ -85,6 +85,7 @@ class UsersIntegrationTests(unittest.TestCase):
         user = get_user(1)
         assert user.username == "ronnie"
 '''
+class StudentIntegrationTests(unittest.TestCase):
 
     def test_create_student(self):
 
