@@ -84,3 +84,29 @@ class UsersIntegrationTests(unittest.TestCase):
         update_user(1, "ronnie")
         user = get_user(1)
         assert user.username == "ronnie"
+'''
+
+    def test_create_student(self):
+
+
+    def test_delete_student(self):
+
+    
+    def test_get_all_student_json(self):
+        users_json = get_all_students_json()
+        self.assertListEqual([{"id":1, "username":"bob"}, {"id":2, "username":"rick"}], users_json)  
+
+    
+    def test_create_review():
+
+
+    def test_delete_review():
+
+    
+    def test_get_all_student_reviews_json(): #not sure if this is json
+
+'''  
+
+'''
+    User Acceptance Tests
+'''
