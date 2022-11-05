@@ -8,18 +8,15 @@ from App.controllers import(
     search_all_students
 )
 
-def reviewStudent(studentId, data):
-  #data = request.get_json()
-      
-  thisstudent = search_all_students_(studentId)
 
-  if thisstudent:
-    review = Review(text= data , studentId = thisstudent.studentId, upvotes = 0, downvotes = 0, userid = user.id)
-    db.session.add(review)
-    db.session.commit()
-    return 'Review Added'
-  return 'Error: Student not found'
-
+def create_review(text, studentId, upvotes, downvotes, userid):
+    review = Review(text = text , studentId = studentId, upvotes = upvotes, downvotes = downvotes, userid = userid)
+    if review: #already exists
+      db.session.merge(review)
+      db.session.commit()
+    else:
+      db.session.add(review)
+      db.session.commit()
 
 def get_all_reviews_json(student):
     reviews = student.reviews
@@ -40,3 +37,8 @@ def search_all_reviews_byid(id):
         return review
     return None
 
+
+def delete_review(review):
+    db.session.delete(review)
+    db.session.commit()
+    return None

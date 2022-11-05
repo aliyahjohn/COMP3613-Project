@@ -2,13 +2,17 @@ from flask import Blueprint, redirect, render_template, request, send_from_direc
 from App.database import db
 
 from App.controllers import (
+    create_student,
     get_all_students,
     get_all_students_json,
     search_all_students,
     get_all_reviews_json,
     search_all_reviews,
     search_all_students_,
-    search_all_reviews_byid
+    search_all_reviews_byid,
+    delete_student,
+    create_review,
+    delete_review
 )
 
 from App.models import Student, Review
@@ -31,16 +35,13 @@ def addStudent():
   #receive from json request instead of from form data, backend only
   data = request.get_json() 
   
-  newstudent = Student(name = data['name'] , studentId = data['studentId'], faculty = data['faculty'], year = data['year'], kpoints = 10)
-  
+  newstudent = create_student(data['name'], data['studentId'], data['faculty'], data['year'], 10)
   if newstudent: #if already exists
-    db.session.merge(newstudent)
-    db.session.commit()
+    return 'Student already exists.'
   else:
     db.session.add(newstudent)
     db.session.commit()
-
-  return 'Student List Updated'
+    return 'Student List Updated'
     
 
 #SEARCH STUDENT
@@ -62,12 +63,13 @@ def deleteStudent():
     data = request.get_json() 
     student = search_all_students_(data['id'])
 
-    if student:
-      db.session.delete(student)
-      db.session.commit()
+    result = delete_student(student)
+
+    if result == None:
       return 'Student Deleted'
     else:
       return 'No student found by that ID'
+
 
 
 #ADD REVIEW FOR STUDENT
@@ -77,16 +79,12 @@ def reviewStudent(studentId,data):
       
   thisstudent = search_all_students_(studentId)
 
-  if thisstudent:
-    review = Review(text = data , studentId = studentId, upvotes = 0, downvotes = 0, userid = user.id)
-    if review: #already exists
-      db.session.merge(review)
-      db.session.commit()
-    else:
-      db.session.add(review)
-      db.session.commit()
-    return 'Review Added'
-  return 'Error: Student not found'
+  if thisstudent != None:
+    create_review(data['rtext'] , data['studentId'], 0, 0, data['id'])
+    return 'Review added.'
+  else:
+    return 'Error: Student not found.'
+
 
 
 
@@ -111,6 +109,8 @@ def voteReview():
   data = request.get_json() 
   vote = data['vote']
   
+  #functionality should be moved to a controller function so that it can be tested in test_reviews.py
+
   if (vote == 'downvote') or (vote == 'upvote'):
     review = search_all_reviews_byid(data['reviewId'])
     if review == None:
@@ -131,17 +131,19 @@ def voteReview():
 def deleteReview():
   data = request.get_json()
   student = search_all_students_(data['studentId'])
-  review = search_all_reviews(student.studentId) 
-  
-  if review:
-    # if (data['currentuser'] != review.userid):
-    #   return 'You do not have authorization to delete this review.'
-    # else:
-    db.session.delete(review)
-    db.session.commit()
-    return 'Review Deleted'
+  if student != None:
+    review = search_all_reviews(student.studentId) 
 
-  return 'Incorrect Review Id'
+    if review:
+      # if (data['currentuser'] != review.userid):
+      #   return 'You do not have authorization to delete this review.'
+      # else:
+      delete_review(review)
+      return 'Review Deleted'
+    else:
+      return 'Incorrect Review ID'
+  else:
+    return 'No student by that ID'
 
 
 

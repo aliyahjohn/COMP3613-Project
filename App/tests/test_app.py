@@ -125,8 +125,3 @@ class StudentsIntegrationTests(unittest.TestCase):
     
     #def test_get_all_student_reviews_json(): #not sure if this is json
 
-
-
-'''
-    User Acceptance Tests
-'''
