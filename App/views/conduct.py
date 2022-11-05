@@ -7,7 +7,7 @@ from App.controllers import (
     search_all_students,
     get_all_reviews_json,
     search_all_reviews,
-    search_all_students_,
+    search_all_students_json,
     search_all_reviews_byid
 )
 
