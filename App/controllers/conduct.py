@@ -1,8 +1,8 @@
 from App.models import Student
 from App.database import db
 
-def create_student():
-    newstudent = Student(name = data['name'] , studentid = data['studentid'], faculty = data['faculty'], year = data['year'], kpoints = 10)
+def create_student(name, studentId, faculty, year):
+    newstudent = Student(name = name, studentId = studentId, faculty = faculty, year = year, kpoints = 10)
     db.session.add(newstudent)
     db.session.commit()
     return newstudent
@@ -18,7 +18,7 @@ def get_all_students_json():
     return students #return always
 
 def search_all_students(id):
-    student = Student.query.filter_by(studentid=id).first()
+    student = Student.query.filter_by(studentId=id).first()
     if student: 
         student = student.toJSON()
         return student
@@ -26,7 +26,23 @@ def search_all_students(id):
 
 
 def search_all_students_(id): ##return object no JSON
-    student = Student.query.filter_by(studentid=id).first()
+    student = Student.query.filter_by(studentId=id).first()
     if student: 
         return student
+    return None
+
+def update_student_name(id, data): ##return object no JSON
+    student = Student.query.filter_by(studentId=id).first()
+    if student:
+        student.name = data
+        db.session.add(student)
+        return db.session.commit()
+    return None
+
+def update_student_faculty(id, data): ##return object no JSON
+    student = Student.query.filter_by(studentId=id).first()
+    if student:
+        student.faculty = data
+        db.session.add(student)
+        return db.session.commit()
     return None

@@ -4,16 +4,16 @@ class Review(db.Model):
   __tablename__ = 'Review'
   reviewId = db.Column(db.Integer, primary_key=True)
   text = db.Column(db.String, nullable=False)
-  studentid = db.Column(db.String, db.ForeignKey('Student.studentid'), nullable=False)  
+  studentId = db.Column(db.String, db.ForeignKey('Student.studentId'), nullable=False)  
   upvotes = db.Column(db.Integer, nullable=True)  
   downvotes = db.Column(db.Integer, nullable=True)  
   userid = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False) 
   user = db.relationship('User') 
 
-  def _init_(self, id, text, studentid, upvotes, downvotes, userid, user):
+  def _init_(self, id, text, studentId, upvotes, downvotes, userid, user):
     self.reviewId = id
     self.text = text
-    self.studentid = studentid
+    self.studentId = studentId
     self.upvotes = upvotes
     self.downvotes = downvotes
     self.userid = userid
@@ -22,7 +22,7 @@ class Review(db.Model):
     return{
       'reviewId':self.reviewId,
       'text':self.text,
-      'studentid':self.studentid,
+      'studentId':self.studentId,
       'upvotes':self.upvotes,
       'downvotes':self.downvotes,
       'userid':self.userid,

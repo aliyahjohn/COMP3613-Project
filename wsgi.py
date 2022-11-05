@@ -4,7 +4,7 @@ from flask.cli import with_appcontext, AppGroup
 
 from App.database import create_db, get_migrate
 from App.main import create_app
-# from App.controllers import ( create_user, get_all_users_json, get_all_users, create_student, get_all_students, get_all_students_json )
+from App.controllers import ( create_user, get_all_users_json, get_all_users, create_student, get_all_students, get_all_students_json )
 from App.controllers import ( create_user, get_all_users_json, get_all_users )
 
 # This commands file allow you to create convenient CLI commands for testing controllers
@@ -28,12 +28,12 @@ student_cli = AppGroup('student', help='student object commands')
 # Then define the command and any parameters and annotate it with the group (@)
 @student_cli.command("create", help="Creates a student profile")
 @click.argument("name", default="jenny")
-@click.argument("studentid", default="816000000")
+@click.argument("studentId", default="816000000")
 @click.argument("faculty", default="FST")
 @click.argument("year", default="2022")
 @click.argument("kpoints", default="0")
-def create_student_command(name, studentid, faculty, year, kpoints):
-    create_student(name, studentid, faculty, year, kpoints)
+def create_student_command(name, studentId, faculty, year, kpoints):
+    create_student(name, studentId, faculty, year, kpoints)
     print(f'Profile for {name} created!')
 
 # this command will be : flask user create bob bobpass
