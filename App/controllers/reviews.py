@@ -12,7 +12,7 @@ def get_all_reviews_json(student):
     return reviews 
 
 def search_all_reviews(id):
-    review = Review.query.filter_by(studentId=id).first()
+    review = Review.query.filter_by(studentid=id).first()
     if review: 
         return review
     return None

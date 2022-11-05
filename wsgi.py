@@ -27,13 +27,13 @@ student_cli = AppGroup('student', help='student object commands')
 
 # Then define the command and any parameters and annotate it with the group (@)
 @student_cli.command("create", help="Creates a student profile")
-@click.argument("faculty", default="FST")
-@click.argument("kpoints", default="0")
 @click.argument("name", default="jenny")
-@click.argument("studentId", default="816000000")
+@click.argument("studentid", default="816000000")
+@click.argument("faculty", default="FST")
 @click.argument("year", default="2022")
-def create_student_command(faculty, kpoints, name, studentId, year):
-    create_student(faculty, kpoints, name, studentId, year)
+@click.argument("kpoints", default="0")
+def create_student_command(name, studentid, faculty, year, kpoints):
+    create_student(name, studentid, faculty, year, kpoints)
     print(f'Profile for {name} created!')
 
 # this command will be : flask user create bob bobpass

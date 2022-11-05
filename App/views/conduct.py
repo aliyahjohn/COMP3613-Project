@@ -31,7 +31,7 @@ def addStudent():
   #receive from json request instead of from form data, backend only
   data = request.get_json() 
   
-  newstudent = Student(name = data['name'] , studentId = data['studentId'], faculty = data['faculty'], year = data['year'], kpoints = 10)
+  newstudent = Student(name = data['name'] , studentid = data['studentid'], faculty = data['faculty'], year = data['year'], kpoints = 10)
   
   if newstudent: #if already exists
     db.session.merge(newstudent)
@@ -75,10 +75,10 @@ def deleteStudent():
 def reviewStudent():
   data = request.get_json()
       
-  thisstudent = search_all_students_(data['studentId'])
+  thisstudent = search_all_students_(data['studentid'])
 
   if thisstudent:
-    review = Review(text = data['rtext'] , studentId = data['studentId'], upvotes = 0, downvotes = 0, userid = data['id'])
+    review = Review(text = data['rtext'] , studentid = data['studentid'], upvotes = 0, downvotes = 0, userid = data['id'])
     if review: #already exists
       db.session.merge(review)
       db.session.commit()
@@ -94,7 +94,7 @@ def reviewStudent():
 @conduct_views.route('/conduct/studentReviews', methods=['GET'])
 def allReviews():
     data = request.get_json()
-    student = search_all_students_(data['studentId'])
+    student = search_all_students_(data['studentid'])
   
     if student:
       studentReviews = get_all_reviews_json(student)
@@ -118,7 +118,7 @@ def voteReview():
     else:
       Review.updateVotes(vote, review)
 
-    studentOBJ = search_all_students_(review.studentId)
+    studentOBJ = search_all_students_(review.studentid)
     Student.updateKPoints(studentOBJ, vote)
     return 'Vote Added'
     
@@ -130,8 +130,8 @@ def voteReview():
 @conduct_views.route('/conduct/deleteReview', methods=['DELETE'])
 def deleteReview():
   data = request.get_json()
-  student = search_all_students_(data['studentId'])
-  review = search_all_reviews(student.studentId) 
+  student = search_all_students_(data['studentid'])
+  review = search_all_reviews(student.studentid) 
   
   if review:
     # if (data['currentuser'] != review.userid):

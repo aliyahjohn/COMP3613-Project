@@ -8,7 +8,7 @@
 
     {% for student in students %}
     <span>
-        <h5> {{student.studentId}} </h5>
+        <h5> {{student.studentid}} </h5>
         <h6> {{student.name}} </h6>
         <!-- <h8> {{student.faculty}} </h8>
         <h8> {{student.year}} </h8>
@@ -24,7 +24,7 @@
 <form method="POST" action="/conduct/add">
     <!-- add student: -->
     <textarea id="name" name="addStudent" class="materialize-textarea" ></textarea>
-    <textarea id="studentId" name="addStudent" class="materialize-textarea" ></textarea>
+    <textarea id="studentid" name="addStudent" class="materialize-textarea" ></textarea>
     <textarea id="faculty" name="addStudent" class="materialize-textarea" ></textarea>
     <textarea id="year" name="addStudent" class="materialize-textarea" ></textarea>
     <textarea id="kpoints" name="addStudent" class="materialize-textarea" ></textarea>

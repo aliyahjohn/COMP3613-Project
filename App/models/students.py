@@ -3,15 +3,15 @@ from App.database import db
 
 class Student(db.Model):
   __tablename__ = 'Student'
-  studentId = db.Column(db.String, primary_key=True)
+  studentid = db.Column(db.String, primary_key=True)
   name = db.Column(db.String, nullable=False)
   faculty = db.Column(db.String, nullable=False)
   year = db.Column(db.Integer, nullable=False)
   kpoints = db.Column(db.Integer)
   reviews = db.relationship('Review', backref='Student')
 
-  def _init_(self, studentId, name, faculty, year, kpoints):
-    self.studentId = studentId
+  def _init_(self, studentid, name, faculty, year, kpoints):
+    self.studentid = studentid
     self.name = name
     self.faculty = faculty
     self.year = year
@@ -20,7 +20,7 @@ class Student(db.Model):
     
   def toDict(self):
     return {
-      'studentId':self.studentId,
+      'studentid':self.studentid,
       'name':self.name,
       'faculty':self.faculty,
       'year':self.year,
@@ -30,7 +30,7 @@ class Student(db.Model):
 
   def toJSON(self):
     return{
-      'studentId':self.studentId,
+      'studentid':self.studentid,
       'name':self.name,
       'faculty':self.faculty,
       'year':self.year,
