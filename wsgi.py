@@ -4,8 +4,9 @@ from flask.cli import with_appcontext, AppGroup
 
 from App.database import create_db, get_migrate
 from App.main import create_app
-from App.controllers import ( create_user, get_all_users_json, get_all_users, create_student, get_all_students, get_all_students_json )
-from App.controllers import ( create_user, get_all_users_json, get_all_users )
+
+# from App.controllers import ( create_user, get_all_users_json, get_all_users, create_student, get_all_students, get_all_students_json )
+from App.controllers import ( create_user, get_all_users_json, get_all_users, search_all_students, search_all_students_json,get_all_students,get_all_students_json)
 
 # This commands file allow you to create convenient CLI commands for testing controllers
 
@@ -78,8 +79,37 @@ def list_user_command(format):
     else:
         print(get_all_users())
 
-app.cli.add_command(user_cli) # add the group to the cli
 
+# this command will be: flask find/get user
+@user_cli.command("find", help = "Gets user by username in the database")
+@click.argument("username", default="rob")
+# @click.argument("format", default = "string")
+def get_user_command(username):
+    get_user_by_username(username)
+    # if format == 'string':
+    #     print(get_user_by_username_json())
+    # else:
+    print(get_user_by_username_json(username))
+
+app.cli.add_command(user_cli)  # add the group to the cli
+
+student_cli = AppGroup('student', help='Conduct object commands') 
+
+@student_cli.command("list", help="Lists students in the database")
+@click.argument("format", default="string")
+def list_student_command(format):
+    if format == 'string':
+        print(get_all_students_json())
+    else:
+        print(get_all_students_json())
+
+@student_cli.command("search", help = "Searches for student")
+@click.argument("id", default =1)
+def search_user_command(id): 
+    search_all_students_json(id)
+    print(search_all_students_json(id))
+
+app.cli.add_command(student_cli)  
 
 '''
 Generic Commands

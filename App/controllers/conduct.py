@@ -22,8 +22,7 @@ def search_all_students(id): #JSON
         return student
     return None
 
-
-def search_all_students_(id): ##return object no JSON
+def search_all_students_json(id): ##return object no JSON
     student = Student.query.filter_by(studentId=id).first()
     if student: 
         return student
