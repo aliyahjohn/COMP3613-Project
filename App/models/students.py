@@ -10,7 +10,7 @@ class Student(db.Model):
   kpoints = db.Column(db.Integer)
   reviews = db.relationship('Review', backref='Student')
 
-  def __init__(self, studentId, name, faculty, year, kpoints):
+  def _init_(self, studentId, name, faculty, year, kpoints):
     self.studentId = studentId
     self.name = name
     self.faculty = faculty

@@ -38,7 +38,7 @@ class UserUnitTests(unittest.TestCase):
         assert user.username == "bob"
 
     def test_student_profile(self):
-        student = Student("spongebob", "816000001", "FST", "2020")
+        student = Student("spongebob", "816000001", "FST", "2020", "10")
         assert student.name == "spongebob"
 
     # pure function no side effects or integrations called
@@ -95,24 +95,25 @@ class UsersIntegrationTests(unittest.TestCase):
 class StudentsIntegrationTests(unittest.TestCase):
 
     def test_create_student(self):
-        student = create_student("spongebob", "1816000001", "FST", "2020")
+        student = create_student("spongebob", "816000001", "FST", "2020", "10")
         assert student.name == "spongebob"
+  
+    def test_get_all_student_json(self):
+        students_json = get_all_students_json()
+        self.assertListEqual([{"studentId":"816000001", "name":"spongebob", "faculty":"FST", "year": 2020, "kpoints": 10}], students_json)  
 
+    
    # Tests data changes in the database
+
     def test_update_student_name(self):
-        update_student_name("1816000001", "patrick")
-        student = search_all_students_("1816000001")
+        student = search_all_students_("816000001")
+        update_student_name("816000001", "patrick")
         assert student.name == "patrick"
 
 
     #def test_delete_student(self):
 
-    
-    def test_get_all_student_json(self):
-        students_json = get_all_students_json()
-        self.assertListEqual([{"studentId":"1816000001", "name":"spongebob", "faculty":"FST", "year": "2020", "kpoints": "10"}], students_json)  
-
-    
+  
     #def test_create_review():
 
 
