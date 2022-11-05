@@ -88,6 +88,8 @@ class UsersIntegrationTests(unittest.TestCase):
 class StudentIntegrationTests(unittest.TestCase):
 
     def test_create_student(self):
+        student = create_student("spongebob", "816000001", "FST","2020")
+        assert user.username == "spongebob"
 
 
     def test_delete_student(self):
@@ -95,7 +97,7 @@ class StudentIntegrationTests(unittest.TestCase):
     
     def test_get_all_student_json(self):
         users_json = get_all_students_json()
-        self.assertListEqual([{"id":1, "username":"bob"}, {"id":2, "username":"rick"}], users_json)  
+        self.assertListEqual([{"id":1816000001, "username":"bob"}, {"id":816000002, "username":"patrick"}], users_json)  
 
     
     def test_create_review():
