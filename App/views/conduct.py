@@ -74,16 +74,17 @@ def deleteStudent():
 
 #ADD REVIEW FOR STUDENT
 @conduct_views.route('/conduct/reviewStudent', methods=['POST'])
-def reviewStudent():
-  data = request.get_json()
+def reviewStudent(studentId,data):
+  #data = request.get_json()
       
-  thisstudent = search_all_students_(data['studentId'])
+  thisstudent = search_all_students_(studentId)
 
-  if thisstudent:
+  if thisstudent != None:
     create_review(data['rtext'] , data['studentId'], 0, 0, data['id'])
     return 'Review added.'
   else:
     return 'Error: Student not found.'
+
 
 
 

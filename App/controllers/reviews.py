@@ -1,6 +1,13 @@
-from App.models import Review
+from App.models import Review, Student
 from App.database import db
 from json import *
+from App.controllers import(
+    get_all_students,
+    get_all_students_json,
+    search_all_students_,
+    search_all_students
+)
+
 
 def create_review(text, studentId, upvotes, downvotes, userid):
     review = Review(text = text , studentId = studentId, upvotes = upvotes, downvotes = downvotes, userid = userid)
@@ -10,7 +17,6 @@ def create_review(text, studentId, upvotes, downvotes, userid):
     else:
       db.session.add(review)
       db.session.commit()
-   
 
 def get_all_reviews_json(student):
     reviews = student.reviews
