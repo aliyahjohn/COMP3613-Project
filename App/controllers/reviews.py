@@ -12,8 +12,15 @@ def get_all_reviews_json(student):
     return reviews 
 
 def search_all_reviews(id):
-    review = Review.query.filter_by(studentId=id).first()
+    review = Review.query.filter_by(reviewId=id).first()
     if review: 
+        return review
+    return None
+
+def search_all_reviews_json(id):
+    review = Review.query.filter_by(reviewId=id).first()
+    if review:
+        review = review.toJSON() 
         return review
     return None
 
@@ -23,3 +30,11 @@ def search_all_reviews_byid(id):
         return review
     return None
 
+def delete_review(id):
+   review = get_all_reviews_json(id)
+   if review:
+     db.session.delete(review)
+     db.session.commit()
+     return 'Review Deleted'
+   else:
+     return 'No review found by that ID'
