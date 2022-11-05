@@ -17,6 +17,7 @@ from App.controllers import (
     search_all_students,
     update_student_name,
     update_student_faculty,
+    reviewStudent,
     get_all_reviews_json,
     search_all_reviews,
     search_all_students_,
@@ -114,8 +115,9 @@ class StudentsIntegrationTests(unittest.TestCase):
     #def test_delete_student(self):
 
   
-    #def test_create_review():
-
+    def test_create_review(self):
+        review = reviewStudent("816000001", "good student")
+        assert review.text == "good student"
 
 
     #def test_delete_review():

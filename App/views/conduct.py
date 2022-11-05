@@ -72,13 +72,13 @@ def deleteStudent():
 
 #ADD REVIEW FOR STUDENT
 @conduct_views.route('/conduct/reviewStudent', methods=['POST'])
-def reviewStudent():
-  data = request.get_json()
+def reviewStudent(studentId,data):
+  #data = request.get_json()
       
-  thisstudent = search_all_students_(data['studentId'])
+  thisstudent = search_all_students_(studentId)
 
   if thisstudent:
-    review = Review(text = data['rtext'] , studentId = data['studentId'], upvotes = 0, downvotes = 0, userid = data['id'])
+    review = Review(text = data , studentId = studentId, upvotes = 0, downvotes = 0, userid = user.id)
     if review: #already exists
       db.session.merge(review)
       db.session.commit()
