@@ -10,7 +10,7 @@ class Review(db.Model):
   userid = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False) 
   user = db.relationship('User') 
 
-  def _init_(self, id, text, studentId, upvotes, downvotes, userid, user):
+  def _init_(self, id, text, studentId, upvotes, downvotes, userid):
     self.reviewId = id
     self.text = text
     self.studentId = studentId

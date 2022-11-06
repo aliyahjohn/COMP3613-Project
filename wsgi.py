@@ -4,6 +4,7 @@ from flask.cli import with_appcontext, AppGroup
 
 from App.database import create_db, get_migrate
 from App.main import create_app
+
 # from App.controllers import ( create_user, get_all_users_json, get_all_users, create_student, get_all_students, get_all_students_json )
 from App.controllers import ( create_user, get_all_users_json, get_all_users, search_all_students, search_all_students_json,get_all_students,get_all_students_json, create_student, get_all_reviews_json,search_all_reviews ,search_all_reviews_json,search_all_reviews_byid)
 
@@ -23,30 +24,30 @@ def initialize():
 # Student Commands
 # '''
 
-# student_cli = AppGroup('student', help='student object commands') 
+student_cli = AppGroup('student', help='student object commands') 
 
-# # Then define the command and any parameters and annotate it with the group (@)
-# @student_cli.command("create", help="Creates a student profile")
-# @click.argument("faculty", default="FST")
-# @click.argument("kpoints", default="0")
-# @click.argument("name", default="jenny")
-# @click.argument("studentId", default="816000000")
-# @click.argument("year", default="2022")
-# def create_student_command(faculty, kpoints, name, studentId, year):
-#     create_student(faculty, kpoints, name, studentId, year)
-#     print(f'Profile for {name} created!')
+# Then define the command and any parameters and annotate it with the group (@)
+@student_cli.command("create", help="Creates a student profile")
+@click.argument("name", default="jenny")
+@click.argument("studentId", default="816000000")
+@click.argument("faculty", default="FST")
+@click.argument("year", default="2022")
+@click.argument("kpoints", default="0")
+def create_student_command(name, studentId, faculty, year, kpoints):
+    create_student(name, studentId, faculty, year, kpoints)
+    print(f'Profile for {name} created!')
 
-# # this command will be : flask user create bob bobpass
+# this command will be : flask user create bob bobpass
 
-# @student_cli.command("list", help="Lists students in the database")
-# @click.argument("format", default="string")
-# def list_user_command(format):
-#     if format == 'string':
-#         print(get_all_students())
-#     else:
-#         print(get_all_students_json())
+@student_cli.command("list", help="Lists students in the database")
+@click.argument("format", default="string")
+def list_user_command(format):
+    if format == 'string':
+        print(get_all_students())
+    else:
+        print(get_all_students_json())
 
-# app.cli.add_command(student_cli) # add the group to the cli
+app.cli.add_command(student_cli) # add the group to the cli
 
 
 
@@ -76,7 +77,7 @@ def list_user_command(format):
     if format == 'string':
         print(get_all_users_json())
     else:
-        print(get_all_users_json())
+        print(get_all_users())
 
 
 # this command will be: flask find/get user
