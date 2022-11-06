@@ -6,7 +6,7 @@ from App.database import create_db, get_migrate
 from App.main import create_app
 
 # from App.controllers import ( create_user, get_all_users_json, get_all_users, create_student, get_all_students, get_all_students_json )
-from App.controllers import ( create_user, get_all_users_json, get_all_users, search_all_students, search_all_students_json,get_all_students,get_all_students_json)
+from App.controllers import ( create_user, get_all_users_json, get_all_users, search_all_students, search_all_students_json,get_all_students,get_all_students_json, create_student, get_all_reviews_json,search_all_reviews ,search_all_reviews_json,search_all_reviews_byid)
 
 # This commands file allow you to create convenient CLI commands for testing controllers
 
@@ -104,12 +104,61 @@ def list_student_command(format):
         print(get_all_students_json())
 
 @student_cli.command("search", help = "Searches for student")
-@click.argument("id", default =1)
+@click.argument("id", default ="1")
 def search_user_command(id): 
+    id = str(id)
     search_all_students_json(id)
     print(search_all_students_json(id))
 
-app.cli.add_command(student_cli)  
+@student_cli.command("create", help="Creates a student profile")
+@click.argument("faculty", default="FST")
+@click.argument("kpoints", default="0")
+@click.argument("name", default="jenny")
+@click.argument("studentId", default="816000")
+@click.argument("year", default="2022")
+def create_student_command(faculty, kpoints, name, studentId, year):
+    create_student(faculty, kpoints, name, studentId, year)
+    print(f'Profile for {name} created!')
+
+@student_cli.command("delete", help = "Deletes student profile")
+@click.argument("id", default ="1")
+def search_user_command(id): 
+    id = str(id)
+    delete_student(id)
+    print(f'Student {id} has been removed')
+
+app.cli.add_command(student_cli)
+
+
+review_cli = AppGroup('review', help='Review object commands') 
+
+@review_cli.command("list", help = 'List reviews for student id')
+@click.argument("id", default="1")
+def list_user_command(id):
+        id = str(id)
+        student = search_all_students_json(id)
+        print(get_all_reviews_json(student))
+
+@review_cli.command("search", help = " View reviews by review id")
+@click.argument("id", default="0")
+def list_review_command(id):
+        id = str(id)
+        print(search_all_reviews_json(id))
+
+@review_cli.command("delete", help = "Delete review")
+@click.argument("id", default ="1")
+def search_user_command(id): 
+    id = str(id)
+    delete_review(id)
+    print(f'Review {id} has been removed')
+
+
+
+
+
+
+  
+app.cli.add_command(review_cli)
 
 '''
 Generic Commands

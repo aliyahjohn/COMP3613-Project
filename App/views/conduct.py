@@ -4,10 +4,13 @@ from App.database import db
 from App.controllers import (
     create_student,
     get_all_students,
+    create_student,
     get_all_students_json,
     search_all_students,
     get_all_reviews_json,
     search_all_reviews,
+    search_all_reviews_json,
+    search_all_students_json,
     search_all_students_,
     search_all_reviews_byid,
     delete_student,

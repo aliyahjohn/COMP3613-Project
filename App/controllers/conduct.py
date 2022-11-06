@@ -1,6 +1,7 @@
 from App.models import Student
 from App.database import db
 
+
 def create_student(name , studentId, faculty, year, kpoints):
     newstudent = Student(name = name, studentId = studentId, faculty = faculty, year = year, kpoints = kpoints)
     return newstudent
