@@ -3,25 +3,15 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 from App.main import create_app
 from App.database import create_db
-from App.models import User, Student
+from App.models import User
 from App.controllers import (
     create_user,
     get_all_users_json,
     authenticate,
     get_user,
     get_user_by_username,
-    update_user,
-    create_student,
-    get_all_students,
-    get_all_students_json,
-    search_all_students,
-    update_student_name,
-    update_student_faculty,
-    reviewStudent,
-    get_all_reviews_json,
-    search_all_reviews,
-    search_all_students_,
-    search_all_reviews_byid
+    update_user
+
 )
 
 from wsgi import app
@@ -89,28 +79,3 @@ class UsersIntegrationTests(unittest.TestCase):
         update_user(1, "ronnie")
         user = get_user(1)
         assert user.username == "ronnie"
-
-class StudentsIntegrationTests(unittest.TestCase):
-
-    def test_create_student(self):
-        student = create_student("spongebob", "816000001", "FST", "2020", "10")
-        assert student.name == "spongebob"
-  
-    def test_get_all_student_json(self):
-        students_json = get_all_students_json()
-        self.assertListEqual([{"studentId":"816000001", "name":"spongebob", "faculty":"FST", "year": 2020, "kpoints": 10}], students_json)  
-
- 
-    #def test_delete_student(self):
-
-  
-    def test_create_review(self):
-        review = reviewStudent("816000001", "good student")
-        assert review.text == "good student"
-
-
-    #def test_delete_review():
-
-    
-    #def test_get_all_student_reviews_json(): #not sure if this is json
-
