@@ -101,11 +101,11 @@ def search_user_command(id):
 
 
 @student_cli.command("create", help="Creates a student profile")
-@click.argument("name", default="Jenny")
+@click.argument("name", default="Betty")
 @click.argument("studentId", default="816000000")
 @click.argument("faculty", default="FST")
-@click.argument("year", default=2020)
-@click.argument("kpoints", default=10)
+@click.argument("year", default="2020")
+@click.argument("kpoints", default="10")
 def create_student_command(name , studentId, faculty, year, kpoints):
     create_student(name , studentId, faculty, year, kpoints)
     print(f'Profile for {name} created!')

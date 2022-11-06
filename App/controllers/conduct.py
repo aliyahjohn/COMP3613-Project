@@ -11,10 +11,11 @@ def get_all_students():
 
 def get_all_students_json():
     students = Student.query.all()
+    if students:
+        students = [student.toJSON() for student in students]
+        return students
     if not students:
-        return []
-    students = [student.toJSON() for student in students]
-    return students #return always
+        return "No Students Found"
 
 def search_all_students(id): 
     student = Student.query.filter_by(studentId=id).first()
@@ -38,6 +39,7 @@ def update_student_name(id, data): ##return object no JSON
     student = Student.query.filter_by(studentId=id).first()
     if student:
         student.name = data
+        db.session.add(student)
         return db.session.commit()
     return None
 
@@ -45,5 +47,6 @@ def update_student_faculty(id, data): ##return object no JSON
     student = Student.query.filter_by(studentId=id).first()
     if student:
         student.faculty = data
+        db.session.add(student)
         return db.session.commit()
     return None

@@ -50,17 +50,17 @@ class StudentsIntegrationTests(unittest.TestCase):
         student = create_student("Betty", "816000000", "FST", "2020", "10")
         assert student.name == "Betty"
 
-    #checks if data from the student table was retrieved
+    #checks if data from the student table in json was retrieved
     def test_get_all_students_json(self):
         students_json = get_all_students_json()
-        self.assertListEqual([{"name":"Betty", "studentId":816000000, "faculty":"FST", "year":2020, "kpoints":10}], students_json)
+        self.assertListEqual([{"name":"Betty", "studentId":"816000000", "faculty":"FST", "year":"2020", "kpoints":"10"}], students_json)
 
     #checks to see if a student was be found by ID
     def test_search_all_students(self):
-        id = "816000000"
-        student = search_all_students(id)
+        #id = "816000000"
+        student = search_all_students("816000000")
         assert student.name == "Betty"
-
+'''
     #checks to see if name was be changed    
     def test_update_student_name(self):
         student = search_all_students("816000000")
@@ -72,7 +72,7 @@ class StudentsIntegrationTests(unittest.TestCase):
         student = search_all_students("816000000")
         update_student_faculty("816000000", "FHE")
         assert student.faculty == "FHE"
-'''
+
     #checks if student was deleted
     def test_delete_student(self):
         student = search_all_students(816000000)
