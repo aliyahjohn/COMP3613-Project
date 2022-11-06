@@ -38,9 +38,6 @@ class UserUnitTests(unittest.TestCase):
         user = User("bob", "bobpass")
         assert user.username == "bob"
 
-    def test_student_profile(self):
-        student = Student("spongebob", "816000001", "FST", "2020", "10")
-        assert student.name == "spongebob"
 
     # pure function no side effects or integrations called
     def test_toJSON(self):
@@ -103,15 +100,7 @@ class StudentsIntegrationTests(unittest.TestCase):
         students_json = get_all_students_json()
         self.assertListEqual([{"studentId":"816000001", "name":"spongebob", "faculty":"FST", "year": 2020, "kpoints": 10}], students_json)  
 
-    
-   # Tests data changes in the database
-
-    def test_update_student_name(self):
-        student = search_all_students_("816000001")
-        update_student_name("816000001", "patrick")
-        assert student.name == "patrick"
-
-
+ 
     #def test_delete_student(self):
 
   

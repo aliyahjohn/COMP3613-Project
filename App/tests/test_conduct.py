@@ -21,6 +21,11 @@ LOGGER = logging.getLogger(__name__)
    Unit Tests
 '''
 
+class UserUnitTests(unittest.TestCase):
+
+    def test_student_profile(self):
+        student = Student("spongebob", "816000001", "FST", "2020", "10")
+        assert student.name == "spongebob"
 
 
 
@@ -39,19 +44,34 @@ def empty_db():
 
 
 class StudentsIntegrationTests(unittest.TestCase):
-
+    
+    #checks student creation
     def test_create_student(self):
         student = create_student("Betty", "816000000", "FST", "2020", "10")
         assert student.name == "Betty"
 
+    #checks if data from the student table is retrieved
     def test_get_all_students_json(self):
         students_json = get_all_students_json()
         self.assertListEqual([{"name":"Betty", "studentId":"816000000", "faculty":"FST", "year":2020, "kpoints":10}], students_json)
 
+    #checks to see if a student can be found by ID
     def test_search_all_students(self):
         id = "816000000"
         student_json = search_all_students(816000000)
         assert student_json.name == "Betty"
+
+    #checks to see if name can be changed    
+    def test_update_student_name(self):
+        student = search_all_students_("816000000")
+        update_student_name("816000001", "Boop")
+        assert student.name == "Boop"
+
+    #checks to see if faculty can be changed    
+    def test_update_student_faculty(self):
+        student = search_all_students_("816000000")
+        update_student_faculty("816000001", "FHE")
+        assert student.faculty == "FHE"
 
     def test_delete_student(self):
         student = search_all_students_(816000000)
