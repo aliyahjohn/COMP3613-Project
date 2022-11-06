@@ -47,7 +47,7 @@ class StudentsIntegrationTests(unittest.TestCase):
     
     #checks if a student profile was created
     def test_create_student(self):
-        student = create_student("Betty", "816000000", "FST", "2020", "10")
+        student = create_student(name= "Betty",studentID= "816000000",faculty= "FST",year= "2020",kpoints= "10")
         assert student.name == "Betty"
 
     #checks if data from the student table in json was retrieved
