@@ -1,10 +1,10 @@
 from App.models import Review, Student
 from App.database import db
 from json import *
+
 from App.controllers import(
     get_all_students,
     get_all_students_json,
-    search_all_students_,
     search_all_students
 )
 
@@ -35,12 +35,6 @@ def search_all_reviews_json(id):
     review = Review.query.filter_by(reviewId=id).first()
     if review:
         review = review.toJSON() 
-        return review
-    return None
-
-def search_all_reviews_byid(id):
-    review = Review.query.filter_by(reviewId=id).first()
-    if review: 
         return review
     return None
 

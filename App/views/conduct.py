@@ -7,12 +7,10 @@ from App.controllers import (
     create_student,
     get_all_students_json,
     search_all_students,
+    search_all_students_json,
     get_all_reviews_json,
     search_all_reviews,
     search_all_reviews_json,
-    search_all_students_json,
-    search_all_students_,
-    search_all_reviews_byid,
     delete_student,
     create_review,
     delete_review
@@ -51,7 +49,7 @@ def addStudent():
 @conduct_views.route('/conduct/search', methods=['GET'])
 def searchStudents():
     data = request.get_json() 
-    student = search_all_students(data['id'])
+    student = search_all_students_json(data['id'])
     if student:
       return jsonify(student)
     else:
@@ -64,7 +62,7 @@ def searchStudents():
 @conduct_views.route('/conduct/delete', methods=['DELETE'])
 def deleteStudent():
     data = request.get_json() 
-    student = search_all_students_(data['id'])
+    student = search_all_students(data['id'])
 
     result = delete_student(student)
 
@@ -80,7 +78,7 @@ def deleteStudent():
 def reviewStudent(studentId,data):
   #data = request.get_json()
       
-  thisstudent = search_all_students_(studentId)
+  thisstudent = search_all_students(studentId)
 
   if thisstudent != None:
     create_review(data['rtext'] , data['studentId'], 0, 0, data['id'])
@@ -95,7 +93,7 @@ def reviewStudent(studentId,data):
 @conduct_views.route('/conduct/studentReviews', methods=['GET'])
 def allReviews():
     data = request.get_json()
-    student = search_all_students_(data['studentId'])
+    student = search_all_students(data['studentId'])
   
     if student:
       studentReviews = get_all_reviews_json(student)
@@ -115,13 +113,13 @@ def voteReview():
   #functionality should be moved to a controller function so that it can be tested in test_reviews.py
 
   if (vote == 'downvote') or (vote == 'upvote'):
-    review = search_all_reviews_byid(data['reviewId'])
+    review = search_all_reviews(data['reviewId'])
     if review == None:
       return 'Error: Review not found.'
     else:
       Review.updateVotes(vote, review)
 
-    studentOBJ = search_all_students_(review.studentId)
+    studentOBJ = search_all_students(review.studentId)
     Student.updateKPoints(studentOBJ, vote)
     return 'Vote Added'
     
@@ -133,7 +131,7 @@ def voteReview():
 @conduct_views.route('/conduct/deleteReview', methods=['DELETE'])
 def deleteReview():
   data = request.get_json()
-  student = search_all_students_(data['studentId'])
+  student = search_all_students(data['studentId'])
   if student != None:
     review = search_all_reviews(student.studentId) 
 

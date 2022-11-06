@@ -16,16 +16,16 @@ def get_all_students_json():
     students = [student.toJSON() for student in students]
     return students #return always
 
-def search_all_students(id): #JSON
+def search_all_students(id): 
     student = Student.query.filter_by(studentId=id).first()
     if student: 
-        student = student.toJSON()
         return student
     return None
 
-def search_all_students_json(id): ##return object no JSON
+def search_all_students_json(id): 
     student = Student.query.filter_by(studentId=id).first()
     if student: 
+        student = student.toJSON()
         return student
     return None
 
