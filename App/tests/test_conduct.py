@@ -24,7 +24,7 @@ LOGGER = logging.getLogger(__name__)
 class UserUnitTests(unittest.TestCase):
 
     def test_student_profile(self):
-        student = Student("spongebob", "816000001", "FST", "2020", "10")
+        student = Student(name = "spongebob",studentId= "816000001",faculty= "FST",year= "2020",kpoints= "10")
         assert student.name == "spongebob"
 
 
@@ -53,29 +53,30 @@ class StudentsIntegrationTests(unittest.TestCase):
     #checks if data from the student table was retrieved
     def test_get_all_students_json(self):
         students_json = get_all_students_json()
-        self.assertListEqual([{"name":"Betty", "studentId":"816000000", "faculty":"FST", "year":2020, "kpoints":10}], students_json)
+        self.assertListEqual([{"name":"Betty", "studentId":816000000, "faculty":"FST", "year":2020, "kpoints":10}], students_json)
 
     #checks to see if a student was be found by ID
     def test_search_all_students(self):
         id = "816000000"
-        student_json = search_all_students(816000000)
-        assert student_json.name == "Betty"
+        student = search_all_students(id)
+        assert student.name == "Betty"
 
     #checks to see if name was be changed    
     def test_update_student_name(self):
-        student = search_all_students_json("816000000")
-        update_student_name("816000001", "Boop")
+        student = search_all_students("816000000")
+        update_student_name("816000000", "Boop")
         assert student.name == "Boop"
 
     #checks to see if faculty was be changed    
     def test_update_student_faculty(self):
-        student = search_all_students_json("816000000")
-        update_student_faculty("816000001", "FHE")
+        student = search_all_students("816000000")
+        update_student_faculty("816000000", "FHE")
         assert student.faculty == "FHE"
-
+'''
     #checks if student was deleted
     def test_delete_student(self):
-        student = search_all_students_(816000000)
+        student = search_all_students(816000000)
         delete_student(student)
         student = search_all_students_(816000000)
         self.assertListEqual(None, student) 
+'''
