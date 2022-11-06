@@ -32,37 +32,6 @@ def initialize():
     print('database intialized')
 
 
-# '''
-# Student Commands
-# '''
-
-student_cli = AppGroup('student', help='student object commands') 
-
-# Then define the command and any parameters and annotate it with the group (@)
-@student_cli.command("create", help="Creates a student profile")
-@click.argument("name", default="jenny")
-@click.argument("studentId", default="816000000")
-@click.argument("faculty", default="FST")
-@click.argument("year", default="2022")
-@click.argument("kpoints", default="0")
-def create_student_command(name, studentId, faculty, year, kpoints):
-    create_student(name, studentId, faculty, year, kpoints)
-    print(f'Profile for {name} created!')
-
-# this command will be : flask user create bob bobpass
-
-@student_cli.command("list", help="Lists students in the database")
-@click.argument("format", default="string")
-def list_user_command(format):
-    if format == 'string':
-        print(get_all_students())
-    else:
-        print(get_all_students_json())
-
-app.cli.add_command(student_cli) # add the group to the cli
-
-
-
 '''
 User Commands
 '''
@@ -105,15 +74,23 @@ def get_user_command(username):
 
 app.cli.add_command(user_cli)  # add the group to the cli
 
-student_cli = AppGroup('student', help='Conduct object commands') 
+
+
+'''
+Student Commands
+'''
+
+student_cli = AppGroup('student', help='student object commands') 
+
 
 @student_cli.command("list", help="Lists students in the database")
 @click.argument("format", default="string")
-def list_student_command(format):
+def list_user_command(format):
     if format == 'string':
-        print(get_all_students_json())
+        print(get_all_students())
     else:
         print(get_all_students_json())
+
 
 @student_cli.command("search", help = "Searches for student")
 @click.argument("id", default ="1")
@@ -122,15 +99,17 @@ def search_user_command(id):
     search_all_students_json(id)
     print(search_all_students_json(id))
 
+
 @student_cli.command("create", help="Creates a student profile")
+@click.argument("name", default="Jenny")
+@click.argument("studentId", default="816000000")
 @click.argument("faculty", default="FST")
-@click.argument("kpoints", default="0")
-@click.argument("name", default="jenny")
-@click.argument("studentId", default="816000")
-@click.argument("year", default="2022")
-def create_student_command(faculty, kpoints, name, studentId, year):
-    create_student(faculty, kpoints, name, studentId, year)
+@click.argument("year", default=2020)
+@click.argument("kpoints", default=10)
+def create_student_command(name , studentId, faculty, year, kpoints):
+    create_student(name , studentId, faculty, year, kpoints)
     print(f'Profile for {name} created!')
+
 
 @student_cli.command("delete", help = "Deletes student profile")
 @click.argument("id", default ="1")
@@ -139,7 +118,16 @@ def search_user_command(id):
     delete_student(id)
     print(f'Student {id} has been removed')
 
+
 app.cli.add_command(student_cli)
+
+
+
+
+
+'''
+Review Commands
+'''
 
 
 review_cli = AppGroup('review', help='Review object commands') 
@@ -165,12 +153,8 @@ def search_user_command(id):
     print(f'Review {id} has been removed')
 
 
-
-
-
-
-  
 app.cli.add_command(review_cli)
+
 
 '''
 Generic Commands
