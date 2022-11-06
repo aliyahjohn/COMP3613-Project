@@ -3,13 +3,13 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 from App.main import create_app
 from App.database import create_db
-from App.models import Reviews
+from App.models import Review
 from App.controllers import (
     create_review,
     get_all_reviews_json,
     search_all_reviews,
     delete_review,
-    search_all_students_
+    search_all_students_json
 )
 
 from wsgi import app
@@ -47,7 +47,7 @@ class ReviewsIntegrationTests(unittest.TestCase):
 
     #checks to see if all reviews for a student was retrieved
     def test_get_all_reviews_json(self):
-        student = search_all_students_(816000000)
+        student = search_all_students_json(816000000)
         reviews_json = get_all_reviews_json(student) #assume student != None
         self.assertListEqual([{"reviewId":1, "text":"Great student", "studentId":"816000000", "upvotes":0, "downvotes":0, "userid":1}], reviews_json)
 

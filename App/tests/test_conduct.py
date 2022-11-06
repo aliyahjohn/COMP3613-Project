@@ -8,7 +8,7 @@ from App.controllers import (
     create_student,
     get_all_students_json,
     search_all_students,
-    search_all_students_,
+    search_all_students_json,
     delete_student
 )
 
@@ -63,13 +63,13 @@ class StudentsIntegrationTests(unittest.TestCase):
 
     #checks to see if name was be changed    
     def test_update_student_name(self):
-        student = search_all_students_("816000000")
+        student = search_all_students_json("816000000")
         update_student_name("816000001", "Boop")
         assert student.name == "Boop"
 
     #checks to see if faculty was be changed    
     def test_update_student_faculty(self):
-        student = search_all_students_("816000000")
+        student = search_all_students_json("816000000")
         update_student_faculty("816000001", "FHE")
         assert student.faculty == "FHE"
 
